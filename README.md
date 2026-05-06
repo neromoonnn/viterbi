@@ -14,10 +14,10 @@ This project implements:
 
 ```python
 import numpy as np
-from main import convolutional_encode, convolutional_decode
+from viterbi import convolutional_encode, convolutional_decode
 
 bits = np.array([1, 0, 1, 1, 0, 1, 0, 0, 1])
-constraint_length = 7
+constraint_length = np.int32(7)
 generator = np.array([0b1_110111, 0b1_101001, 0b001_011])
 
 encoded = convolutional_encode(bits, constraint_length, generator)
@@ -29,7 +29,7 @@ print(np.array_equal(bits, decoded))  # True
 Or run directly:
 
 ```bash
-python main.py
+python viterbi.py
 ```
 
 ## Dependencies
