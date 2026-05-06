@@ -1,6 +1,6 @@
 import numpy as np
 
-def polynomial_to_trellis(constraint_length : np.int32, generator : np.array):
+def polynomial_to_trellis(constraint_length : np.int32, generator : np.ndarray):
     memory_size = constraint_length - 1
     num_states = 2**(memory_size)
     
@@ -15,9 +15,9 @@ def polynomial_to_trellis(constraint_length : np.int32, generator : np.array):
 
     return next_state, output
 
-def convolutional_encode(input : np.array, 
+def convolutional_encode(input : np.ndarray, 
                         constraint_length : np.int32,
-                        generator : np.array):
+                        generator : np.ndarray):
     output = np.array([[0] * len(generator) for _ in range(len(input))])
     memory_size = constraint_length - 1
 
@@ -29,9 +29,9 @@ def convolutional_encode(input : np.array,
     
     return output
 
-def convolutional_decode(input : np.array,
+def convolutional_decode(input : np.ndarray,
                          constraint_length : np.int32,
-                         generator : np.array):
+                         generator : np.ndarray):
     num_states = 2**(constraint_length - 1)
     next_state, output = polynomial_to_trellis(constraint_length, generator)
 
@@ -82,7 +82,7 @@ def convolutional_decode(input : np.array,
 
 def main():
     bits = np.array([1, 0, 1, 1, 0, 1, 0, 0, 1])
-    constraint_length = 7
+    constraint_length = np.int32(7)
     generator = np.array([0b1_110111, 0b1_101001, 0b1_001011])
     encoded = convolutional_encode(bits, constraint_length, generator)
     decoded = convolutional_decode(encoded, constraint_length, generator)
