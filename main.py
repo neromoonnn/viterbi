@@ -35,19 +35,19 @@ def convolutional_decode(input : np.ndarray,
     num_states = 2**(constraint_length - 1)
     next_state, output = polynomial_to_trellis(constraint_length, generator)
 
-    metrics = np.array([np.nan] * num_states)
+    metrics = np.array([np.inf] * num_states)
     metrics[0] = 0
 
-    prev_state = [[np.nan] * num_states for _ in range(len(input))]
-    prev_input = [[np.nan] * num_states for _ in range(len(input))]
+    prev_state = [[np.inf] * num_states for _ in range(len(input))]
+    prev_input = [[np.inf] * num_states for _ in range(len(input))]
 
     for t in range(len(input)):
-        new_metrics = np.array([np.nan] * num_states)
+        new_metrics = np.array([np.inf] * num_states)
 
         for s in range(num_states):
             m = metrics[s]
 
-            if np.isnan(m):
+            if np.isinf(m):
                 continue
 
             for u in (0, 1):
@@ -56,11 +56,6 @@ def convolutional_decode(input : np.ndarray,
                 hamming_distance = np.sum(input[t] ^ output[s][u])
 
                 new_metric = m + hamming_distance
-
-                if np.isnan(new_metrics[ns]):
-                    new_metrics[ns] = new_metric
-                    prev_state[t][ns] = s
-                    prev_input[t][ns] = u
 
                 if new_metric < new_metrics[ns]:
                     new_metrics[ns] = new_metric
